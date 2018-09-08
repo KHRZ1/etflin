@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/putih">
+
+
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/akun"
+        android:paddingLeft="10dp"
+        android:background="@drawable/pic_profile"/>
+
+    <TextView
+        android:id="@+id/member_name"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/profile_pic"
+        android:layout_alignTop="@id/profile_pic"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/levelUser"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_toRightOf="@id/profile_pic"
+        android:layout_below="@+id/member_name"
+        android:layout_alignLeft="@id/member_name"
+        android:text="TextView"
+        android:textSize="10sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="7dp"
+        android:gravity="top" />
+
+    <ImageView
+        android:id="@+id/userMVP"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignTop="@id/levelUser"
+        android:layout_toRightOf="@id/levelUser"
+        app:srcCompat="@drawable/bell64" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_pic"
+        android:paddingBottom="15dp"
+        android:text="@string/beranda"
+        android:textSize="13sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:textColor="@color/hitam" />
+
+    <ImageView
+        android:id="@+id/contact_type"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12.5dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/titiktiga" />
+
+    <ImageView
+        android:id="@+id/statusKomen"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignTop="@+id/statusLike"
+        android:layout_toRightOf="@+id/statusLike"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/user64" />
+
+    <ImageView
+        android:id="@+id/statusLike"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/jumlahLike"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/user64"
+        android:layout_marginLeft="10dp"
+        />
+
+    <TextView
+        android:id="@+id/jumlahLike"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@+id/status"
+        android:layout_marginLeft="4dp"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="8dp"
+        android:text="@string/akun"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/jumlahKomen"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignTop="@id/jumlahLike"
+        android:layout_toRightOf="@id/jumlahLike"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:text="@string/akun"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/waktuStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statusLike"
+        android:layout_alignLeft="@+id/statusLike"
+        android:text="TextView"
+        android:textSize="10sp"
+        android:paddingTop="6dp"
+        android:paddingBottom="20dp" />
+
+
+</RelativeLayout>

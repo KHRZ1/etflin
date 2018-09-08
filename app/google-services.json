@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "871042918594",
+    "firebase_url": "https://etflin.firebaseio.com",
+    "project_id": "etflin",
+    "storage_bucket": "etflin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871042918594:android:8e2a26193171e66b",
+        "android_client_info": {
+          "package_name": "com.etflin.etflin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871042918594-7tb2l32bo214tf02l01n30h3s6l17uf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtaDK9BGU2JOILhHq3YqRDLsgUdzgx-BI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
