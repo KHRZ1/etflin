@@ -1,22 +1,13 @@
 package com.etflin.etflin;
 
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,7 +51,6 @@ public class BerandaFragment extends Fragment{
         prg.setVisibility(View.VISIBLE);
         return view;
     }
-
 
     public class Berandahome extends AsyncTask<String,Void,String>
     {
@@ -122,12 +112,11 @@ public class BerandaFragment extends Fragment{
             String[] jumlah_Suka = separated[4].split(";");
             String[] jumlah_Komen = separated[5].split(";");
             String[] tanggal = separated[6].split(";");
-            String[] nama_suka = separated[7].split(";");
 
             rowItems = new ArrayList<RowItem>();
 
             for (int i = 0; i < nama_user.length; i++) {
-                RowItem item = new RowItem(nama_user[i], pic_url[i], isi_status[i], tanggal[i], level[i], jumlah_Suka[i], jumlah_Komen[i], nama_suka[i]);
+                RowItem item = new RowItem(nama_user[i], pic_url[i], isi_status[i], tanggal[i], level[i], jumlah_Suka[i], jumlah_Komen[i]);
                 rowItems.add(item);
             }
 

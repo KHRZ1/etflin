@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,9 +26,11 @@ public class CostumAdapter extends BaseAdapter {
     Context context;
     List<RowItem> rowItems;
 
+
     CostumAdapter(Context context, List<RowItem> rowItems){
         this.context = context;
         this.rowItems = rowItems;
+
     }
 
     @Override
@@ -65,7 +68,7 @@ public class CostumAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder = null;
         LayoutInflater minflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
@@ -77,7 +80,7 @@ public class CostumAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
 
-        RowItem row_pos = rowItems.get(position);
+        final RowItem row_pos = rowItems.get(position);
 
         try {
             holder.profile_pic.setImageBitmap(drawable_from_url(row_pos.getProfile_pic_id())); ;
@@ -85,14 +88,26 @@ public class CostumAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        String username = settings.getString("username", "");
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
+        String user = settings.getString("username", "");
 
-        if (row_pos.getNamaSuka().contains(username)){
-            holder.statusLike.setImageResource(R.drawable.starfull);
-        } else {
-            holder.statusLike.setImageResource(R.drawable.star);
-        }
+        holder.statusLike.setImageResource(R.drawable.star);
+        holder.statusLike.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ImageView statusLike = (ImageView) v.findViewById(R.id.statusLike);
+                if (statusLike.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.star).getConstantState()) {
+                    statusLike.setImageResource(R.drawable.starfull);
+
+                } else {
+                    statusLike.setImageResource(R.drawable.star);
+
+                }
+
+            }
+        });
+
         holder.member_name.setText(row_pos.getMember_name());
         holder.status.setText(row_pos.getStatus());
         holder.contactType.setImageResource(R.drawable.titiktiga);

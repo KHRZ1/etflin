@@ -1,10 +1,10 @@
 package com.etflin.etflin;
 
 public class RowItem {
-    private String member_name, status, statusWaktu, userLevel, jumlahSuka, jumlahKomen, namaSuka;
+    private String member_name, status, statusWaktu, userLevel, jumlahSuka, jumlahKomen;
     private String profile_pic_id;
 
-    public RowItem(String member_name, String profile_pic_id, String status, String statusWaktu, String userLevel, String jumlahSuka, String jumlahKomen, String namaSuka){
+    public RowItem(String member_name, String profile_pic_id, String status, String statusWaktu, String userLevel, String jumlahSuka, String jumlahKomen){
         this.member_name = member_name;
         this.profile_pic_id = profile_pic_id;
         this.status = status;
@@ -12,17 +12,12 @@ public class RowItem {
         this.userLevel = userLevel;
         this.jumlahSuka = jumlahSuka;
         this.jumlahKomen = jumlahKomen;
-        this.namaSuka = namaSuka;
 
     }
 
     public String getMember_name() { return member_name; }
 
     public void setMember_name(String member_name) { this.member_name = member_name; }
-
-    public String getNamaSuka() { return namaSuka; }
-
-    public void setNamaSuka(String namaSuka) { this.namaSuka = namaSuka; }
 
     public String getUserLevel() { return userLevel; }
 
