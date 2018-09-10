@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="hitam">#000000</color>
 
-    <color name="putih">#ffffff</color>
+    <color name="putih">#fffefe</color>
     <color name="putihbening">#80ffffff</color>
+    <color name="edittext">#f2f2f2</color>
 </resources>

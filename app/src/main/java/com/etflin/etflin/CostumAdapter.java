@@ -2,11 +2,15 @@ package com.etflin.etflin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.internal.gmsg.HttpClient;
+
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +19,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class CostumAdapter extends BaseAdapter {
@@ -84,7 +96,7 @@ public class CostumAdapter extends BaseAdapter {
         Glide.with(context).load(row_pos.getProfile_pic_id()).into(holder.profile_pic);
 
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
-        String user = settings.getString("username", "");
+        final String user = settings.getString("username", "");
 
         holder.statusLike.setImageResource(R.drawable.star);
         holder.statusLike.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +106,13 @@ public class CostumAdapter extends BaseAdapter {
                 ImageView statusLike = (ImageView) v.findViewById(R.id.statusLike);
                 if (statusLike.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.star).getConstantState()) {
                     statusLike.setImageResource(R.drawable.starfull);
-                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) + 1));
+                    Perintah perintah = new Perintah();
+                    perintah.execute("https://www.etflin.com/sukai.php", "KHRZ", row_pos.getIdBer(), "sukai");
+                    row_pos.setMember_name(row_pos.getIdBer());
                 } else {
                     statusLike.setImageResource(R.drawable.star);
-                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) - 1));
+                    Perintah perintah = new Perintah();
+                    perintah.execute("https://www.etflin.com/sukai.php", user, row_pos.getIdBer(), "batal");
                 }
 
             }
@@ -127,14 +142,67 @@ public class CostumAdapter extends BaseAdapter {
         return convertView;
     }
 
-    Bitmap drawable_from_url(String url) throws java.net.MalformedURLException, java.io.IOException {
+    public class Perintah extends AsyncTask<String,Void,String>
+    {
 
-        HttpURLConnection connection = (HttpURLConnection)new URL(url) .openConnection();
-        connection.setRequestProperty("User-agent","Mozilla/4.0");
+        @Override
+        protected String doInBackground(String... params) {
+            String login_url = params[0];
+            try {
+                String user = params[1];
+                String idber = params[2];
+                String tipe = params[3];
+                URL url = new URL(login_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
 
-        connection.connect();
-        InputStream input = connection.getInputStream();
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("user","UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+"&"
+                        +URLEncoder.encode("idber","UTF-8")+"="+URLEncoder.encode(idber, "UTF-8")
+                        +URLEncoder.encode("tipe","UTF-8")+"="+URLEncoder.encode(tipe, "UTF-8");
 
-        return BitmapFactory.decodeStream(input);
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    result = line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onPreExecute();
+        }
     }
 }
