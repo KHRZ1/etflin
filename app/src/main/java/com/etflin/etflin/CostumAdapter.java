@@ -5,17 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+
+import com.bumptech.glide.Glide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -82,11 +81,7 @@ public class CostumAdapter extends BaseAdapter {
 
         final RowItem row_pos = rowItems.get(position);
 
-        try {
-            holder.profile_pic.setImageBitmap(drawable_from_url(row_pos.getProfile_pic_id())); ;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Glide.with(context).load(row_pos.getProfile_pic_id()).into(holder.profile_pic);
 
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
         String user = settings.getString("username", "");
@@ -99,14 +94,15 @@ public class CostumAdapter extends BaseAdapter {
                 ImageView statusLike = (ImageView) v.findViewById(R.id.statusLike);
                 if (statusLike.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.star).getConstantState()) {
                     statusLike.setImageResource(R.drawable.starfull);
-
+                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) + 1));
                 } else {
                     statusLike.setImageResource(R.drawable.star);
-
+                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) - 1));
                 }
 
             }
         });
+
 
         holder.member_name.setText(row_pos.getMember_name());
         holder.status.setText(row_pos.getStatus());
