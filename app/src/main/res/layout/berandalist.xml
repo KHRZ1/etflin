@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/putih">
 
 
@@ -11,18 +11,18 @@
         android:id="@+id/profile_pic"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="@drawable/pic_profile"
         android:contentDescription="@string/akun"
-        android:paddingLeft="10dp"
-        android:background="@drawable/pic_profile"/>
+        android:paddingLeft="10dp" />
 
     <TextView
         android:id="@+id/member_name"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
+        android:layout_alignTop="@id/profile_pic"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@+id/profile_pic"
-        android:layout_alignTop="@id/profile_pic"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:text="@string/app_name"
@@ -33,14 +33,14 @@
         android:id="@+id/levelUser"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_toRightOf="@id/profile_pic"
-        android:layout_below="@+id/member_name"
         android:layout_alignLeft="@id/member_name"
-        android:text="TextView"
-        android:textSize="10sp"
+        android:layout_below="@+id/member_name"
+        android:layout_toRightOf="@id/profile_pic"
+        android:gravity="top"
         android:paddingLeft="10dp"
         android:paddingRight="7dp"
-        android:gravity="top" />
+        android:text="TextView"
+        android:textSize="10sp" />
 
     <ImageView
         android:id="@+id/userMVP"
@@ -54,13 +54,13 @@
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_pic"
-        android:paddingBottom="15dp"
-        android:text="@string/beranda"
-        android:textSize="13sp"
+        android:layout_below="@id/picutama"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:textColor="@color/hitam" />
+        android:paddingBottom="5dp"
+        android:text="@string/beranda"
+        android:textColor="@color/hitam"
+        android:textSize="13sp" />
 
     <ImageView
         android:id="@+id/contact_type"
@@ -68,8 +68,8 @@
         android:layout_height="20dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="12.5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="12.5dp"
         android:contentDescription="@string/app_name"
         app:srcCompat="@drawable/titiktiga" />
 
@@ -78,8 +78,8 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_alignTop="@+id/statusLike"
-        android:layout_toRightOf="@+id/statusLike"
         android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/statusLike"
         android:contentDescription="@string/app_name"
         app:srcCompat="@drawable/user64" />
 
@@ -88,10 +88,9 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_below="@+id/jumlahLike"
-        android:contentDescription="@string/app_name"
-        app:srcCompat="@drawable/user64"
         android:layout_marginLeft="10dp"
-        />
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/user64" />
 
     <TextView
         android:id="@+id/jumlahLike"
@@ -110,8 +109,8 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignTop="@id/jumlahLike"
-        android:layout_toRightOf="@id/jumlahLike"
         android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/jumlahLike"
         android:gravity="center"
         android:paddingLeft="5dp"
         android:text="@string/akun"
@@ -121,12 +120,19 @@
         android:id="@+id/waktuStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/statusLike"
         android:layout_alignLeft="@+id/statusLike"
-        android:text="TextView"
-        android:textSize="10sp"
+        android:layout_below="@+id/statusLike"
+        android:paddingBottom="20dp"
         android:paddingTop="6dp"
-        android:paddingBottom="20dp" />
+        android:text="TextView"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/picutama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_pic"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal_background" />
 
 
 </RelativeLayout>

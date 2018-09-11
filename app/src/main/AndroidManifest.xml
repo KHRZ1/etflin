@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Daftar"></activity>
+        <activity android:name=".Pop"
+            android:theme="@style/AppTheme.CostumTheme"></activity>
         <activity android:name=".ChatRoom"></activity>
     </application>
 

@@ -4,37 +4,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.internal.gmsg.HttpClient;
 
-import android.os.AsyncTask;
+import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import android.widget.Toast;;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 public class CostumAdapter extends BaseAdapter {
     public static final String PREFS_NAME = "MyEtflin";
-    Context context;
+    private Context context;
     List<RowItem> rowItems;
 
 
@@ -60,7 +54,7 @@ public class CostumAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        ImageView profile_pic, contactType, statusLike, statusKomen, profesiLogo;
+        ImageView profile_pic, contactType, statusLike, statusKomen, profesiLogo, picutama;
         TextView member_name, status, jumlahLike, jumlahKomen, waktuStatus, userLevel;
         ViewHolder(View v){
             member_name = (TextView) v.findViewById(R.id.member_name);
@@ -74,6 +68,7 @@ public class CostumAdapter extends BaseAdapter {
             jumlahKomen= (TextView) v.findViewById(R.id.jumlahKomen);
             waktuStatus = (TextView) v.findViewById(R.id.waktuStatus);
             userLevel = (TextView) v.findViewById(R.id.levelUser);
+            picutama = (ImageView) v.findViewById(R.id.picutama);
 
         }
     }
@@ -82,6 +77,9 @@ public class CostumAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder = null;
         LayoutInflater minflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
+        final String user = settings.getString("username", "");
 
         if (convertView == null) {
             convertView = minflater.inflate(R.layout.berandalist, null);
@@ -93,39 +91,80 @@ public class CostumAdapter extends BaseAdapter {
 
         final RowItem row_pos = rowItems.get(position);
 
+
+
+
+
         Glide.with(context).load(row_pos.getProfile_pic_id()).into(holder.profile_pic);
+        if (row_pos.getTotalnamasuka().contains(user)){
+            holder.statusLike.setImageResource(R.drawable.starfull);
+        } else {
+            holder.statusLike.setImageResource(R.drawable.star);
+        }
 
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
-        final String user = settings.getString("username", "");
-
-        holder.statusLike.setImageResource(R.drawable.star);
+        final ViewHolder finalHolder = holder;
         holder.statusLike.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                ImageView statusLike = (ImageView) v.findViewById(R.id.statusLike);
+                TextView jum = finalHolder.jumlahLike;
+                ImageView statusLike = finalHolder.statusLike;
                 if (statusLike.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.star).getConstantState()) {
                     statusLike.setImageResource(R.drawable.starfull);
-                    Perintah perintah = new Perintah();
-                    perintah.execute("https://www.etflin.com/sukai.php", "KHRZ", row_pos.getIdBer(), "sukai");
-                    row_pos.setMember_name(row_pos.getIdBer());
+                    perintah("https://www.etflin.com/sukai.php?user="+user+"&idber="+row_pos.getIdBer()+"&tipe=sukai");
+                    jum.setText("Suka " + String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) + 1));
+                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) + 1));
+                    row_pos.setTotalnamasuka(row_pos.getTotalnamasuka()+user+",");
                 } else {
                     statusLike.setImageResource(R.drawable.star);
-                    Perintah perintah = new Perintah();
-                    perintah.execute("https://www.etflin.com/sukai.php", user, row_pos.getIdBer(), "batal");
+                    perintah("https://www.etflin.com/sukai.php?user="+user+"&idber="+row_pos.getIdBer()+"&tipe=batal");
+                    jum.setText("Suka " + String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) - 1));
+                    row_pos.setJumlahSuka(String.valueOf(Integer.parseInt(row_pos.getJumlahSuka()) - 1));
+                    row_pos.setTotalnamasuka(row_pos.getTotalnamasuka().replace(user + ",", ""));
                 }
 
             }
         });
 
 
-        holder.member_name.setText(row_pos.getMember_name());
-        holder.status.setText(row_pos.getStatus());
+        if (row_pos.getTotaltipe().toString().equals("Pertanyaan")) {
+            String label = "<b>PERTANYAAN -> </b>"  + row_pos.getStatus();
+
+            finalHolder.status.setGravity(Gravity.CENTER);
+            holder.status.setText(Html.fromHtml(label));
+            holder.status.setBackgroundResource(R.drawable.latarstatus);
+            holder.status.setPadding(20, 20, 20, 20);
+        } else {
+            finalHolder.status.setGravity(Gravity.LEFT);
+            holder.status.setText(row_pos.getStatus());
+            holder.status.setBackgroundResource(0);
+            holder.status.setPadding(0, 0, 0, 0);
+        }
+
+
         holder.contactType.setImageResource(R.drawable.titiktiga);
+        holder.contactType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, Pop.class);
+                context.startActivity(myIntent);
+            }
+        });
+
+        if (row_pos.getPicutama().toString().equals("0")) {
+            holder.picutama.setImageResource(0);
+            holder.picutama.setMaxHeight(0);
+        } else {
+            Glide.with(context).load(row_pos.getPicutama()).into(holder.picutama);
+            holder.status.setPadding(0, 10, 0, 0);
+        }
+
+
         holder.statusKomen.setImageResource(R.drawable.komen);
         holder.jumlahLike.setText("Suka " + row_pos.getJumlahSuka());
         holder.jumlahKomen.setText("Komentar " + row_pos.getJumlahKomen());
         holder.waktuStatus.setText(row_pos.getStatusWaktu());
+        holder.member_name.setText(row_pos.getMember_name());
         holder.userLevel.setText(row_pos.getUserLevel());
         if (row_pos.getUserLevel().equals("APOTEKER")){
             holder.profesiLogo.setImageResource(R.drawable.medicine);
@@ -142,67 +181,32 @@ public class CostumAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class Perintah extends AsyncTask<String,Void,String>
-    {
+    public void perintah(String urlTarget) {
 
-        @Override
-        protected String doInBackground(String... params) {
-            String login_url = params[0];
-            try {
-                String user = params[1];
-                String idber = params[2];
-                String tipe = params[3];
-                URL url = new URL(login_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
+// Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = urlTarget;
 
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("user","UTF-8")+"="+URLEncoder.encode(user, "UTF-8")+"&"
-                        +URLEncoder.encode("idber","UTF-8")+"="+URLEncoder.encode(idber, "UTF-8")
-                        +URLEncoder.encode("tipe","UTF-8")+"="+URLEncoder.encode(tipe, "UTF-8");
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast toast = Toast.makeText(context,
+                        "Error",
+                        Toast.LENGTH_SHORT);
 
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String result = "";
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    result = line;
-                }
-
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return result;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                toast.show();
             }
-            return null;
-        }
+        });
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onPreExecute();
-        }
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
+
 }

@@ -23,54 +23,11 @@
     <string name="beranda">Beranda</string>
     <string name="psn">Pesan</string>
     <string name="info">Info</string>
+    <string name="ubah">Ubah</string>
+    <string name="name">Name</string>
+    <string name="publish">Publish</string>
+    <string name="hapus_post">Hapus Postingan</string>
+    <string name="bagikan">Bagikan Postingan</string>
 
-    <string-array name="Member_names">
-        <item>Abdul Kakhar Umar</item>
-        <item>Muhammad Galib Umar</item>
-        <item>Nada Safira</item>
-        <item>Sakina Umar</item>
-        <item>Sakia Umar</item>
-        <item>Sabila Umar</item>
 
-    </string-array>
-
-    <string-array name="user_level">
-        <item>APOTEKER</item>
-        <item>DOKTER</item>
-        <item>PERAWAT</item>
-        <item>PSIKIATER</item>
-        <item>APOTEKER</item>
-        <item>DOKTER</item>
-
-    </string-array>
-
-    <string-array name="waktu_status">
-        <item>12 MENIT YANG LALU</item>
-        <item>8 JAM YANG LALU</item>
-        <item>16 JAM YAnG LALU</item>
-        <item>40 MENIT YANG LALU</item>
-        <item>2 HARI YANG LALU</item>
-        <item>6 HARI YANG LALU</item>
-
-    </string-array>
-
-    <string-array name="profile_pics">
-        <item>@drawable/home64</item>
-        <item>@drawable/home64</item>
-        <item>@drawable/home64</item>
-        <item>@drawable/home64</item>
-        <item>@drawable/home64</item>
-        <item>@drawable/home64</item>
-
-    </string-array>
-
-    <string-array name="statues">
-        <item>I have this two classes. My main Activity and the one that extends the AsyncTask, Now in my main Activity I need to get the result from the in the AsyncTask. How can I pass or get the result to my main Activity?</item>
-        <item>You can create an interface like HelmiB explained or you can create a local broadcast receiver You can see the sample broadcast reciver implementation here</item>
-        <item>I didnt know this is such a favourite to many of you. So heres the simple and convenience way to use interface</item>
-        <item>Just a note for .net developers, one can use AutoResetEvents to achieve this and there is also a java implementation for autoresetevents but this is much cleaner. By the way, is ProcessFinish thread safe?</item>
-        <item>or all those who are getting null pointer pass your interface to your asyncTask class constructor</item>
-        <item>Nest the AsyncTask class within your Activity class. Assuming you dont use the same task in multiple activities, this is the easiest way. All your code stays the same, you just move the existing task class to be a nested class inside your activitys class.</item>
-
-    </string-array>
 </resources>

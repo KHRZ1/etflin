@@ -1,10 +1,10 @@
 package com.etflin.etflin;
 
 public class RowItem {
-    private String member_name, status, statusWaktu, userLevel, jumlahSuka, jumlahKomen, idBer;
-    private String profile_pic_id;
+    private String member_name, status, statusWaktu, userLevel, jumlahSuka, jumlahKomen, idBer, totalnamasuka, totaltipe;
+    private String profile_pic_id, picutama;
 
-    public RowItem(String member_name, String profile_pic_id, String status, String statusWaktu, String userLevel, String jumlahSuka, String jumlahKomen, String idBer){
+    public RowItem(String member_name, String profile_pic_id, String status, String statusWaktu, String userLevel, String jumlahSuka, String jumlahKomen, String idBer, String totalnamasuka, String totaltipe, String picutama){
         this.member_name = member_name;
         this.profile_pic_id = profile_pic_id;
         this.status = status;
@@ -13,7 +13,18 @@ public class RowItem {
         this.jumlahSuka = jumlahSuka;
         this.jumlahKomen = jumlahKomen;
         this.idBer = idBer;
+        this.totalnamasuka = totalnamasuka;
+        this.totaltipe = totaltipe;
+        this.picutama = picutama;
     }
+
+    public String getTotaltipe() { return totaltipe; }
+
+    public void setTotaltipe(String totaltipe) { this.totaltipe = totaltipe; }
+
+    public String getTotalnamasuka() { return totalnamasuka; }
+
+    public void setTotalnamasuka (String totalnamasuka) { this.totalnamasuka = totalnamasuka; }
 
     public String getIdBer() { return idBer; }
 
@@ -33,6 +44,14 @@ public class RowItem {
 
     public void setProfile_pic_id(String profile_pic_id) {
         this.profile_pic_id = profile_pic_id;
+    }
+
+    public String getPicutama() {
+        return picutama;
+    }
+
+    public void setPicutama(String picutama) {
+        this.picutama = picutama;
     }
 
     public String getStatus() {

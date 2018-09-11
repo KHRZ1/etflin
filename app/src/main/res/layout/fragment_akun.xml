@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,10 +8,104 @@
     tools:context=".AkunFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/akun"
+
+    <ImageView
+        android:id="@+id/picProfil"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/akun64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/akunName"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/picProfil"
+        android:layout_toRightOf="@id/picProfil"
+        android:layout_marginLeft="5dp"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/cari"
+        android:inputType="text|textPersonName"
+        android:text="@string/name"
         android:textColor="@color/hitam" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/akunEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picProfil"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/email_icon"
+        android:drawableStart="@drawable/email_icon"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/hitam"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/akunAlamat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/akunEmail"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/lokasi_icon"
+        android:drawableStart="@drawable/lokasi_icon"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textColor="@color/hitam"
+        android:textSize="13sp" />
+
+    <Button
+        android:id="@+id/akunUbahtbl"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/akunName"
+        android:layout_toRightOf="@id/akunName"
+        android:layout_marginLeft="10dp"
+        android:text="@string/ubah"
+        android:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressAkun"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="478dp"
+        android:layout_marginTop="5dp"
+        app:tabTextColor="@color/hitam"
+        android:layout_below="@id/akunAlamat"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Center" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right" />
+    </android.support.design.widget.TabLayout>
+</RelativeLayout>

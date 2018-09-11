@@ -112,12 +112,15 @@ public class BerandaFragment extends Fragment{
             String[] jumlah_Suka = separated[4].split(";");
             String[] jumlah_Komen = separated[5].split(";");
             String[] tanggal = separated[6].split(";");
+            String[] namasuka = separated[7].split(";");
             String[] idBer = separated[8].split(";");
+            String[] totaltipe = separated[9].split(";");
+            String[] picutama = separated[10].split(";");
 
             rowItems = new ArrayList<RowItem>();
 
             for (int i = 0; i < nama_user.length; i++) {
-                RowItem item = new RowItem(nama_user[i], pic_url[i], isi_status[i], tanggal[i], level[i], jumlah_Suka[i], jumlah_Komen[i], idBer[i]);
+                RowItem item = new RowItem(nama_user[i], pic_url[i], isi_status[i], tanggal[i], level[i], jumlah_Suka[i], jumlah_Komen[i], idBer[i], namasuka[i], totaltipe[i], picutama[i]);
                 rowItems.add(item);
             }
 
