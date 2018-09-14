@@ -13,7 +13,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.FontRequestEmojiCompatConfig;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
+import android.support.text.emoji.widget.EmojiTextView;
+import android.support.v4.provider.FontRequest;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +28,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;;
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.List;
 
 import static java.security.AccessController.getContext;
@@ -55,12 +63,13 @@ public class CostumAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView profile_pic, contactType, statusLike, statusKomen, profesiLogo, picutama;
-        TextView member_name, status, jumlahLike, jumlahKomen, waktuStatus, userLevel;
+        TextView member_name, jumlahLike, jumlahKomen, waktuStatus, userLevel;
+        EmojiTextView status;
         ViewHolder(View v){
             member_name = (TextView) v.findViewById(R.id.member_name);
             profile_pic = (ImageView) v.findViewById(R.id.profile_pic);
             profesiLogo = (ImageView) v.findViewById(R.id.userMVP);
-            status= (TextView) v.findViewById(R.id.status);
+            status = (EmojiTextView) v.findViewById(R.id.status);
             contactType = (ImageView) v.findViewById(R.id.contact_type);
             statusLike = (ImageView) v.findViewById(R.id.statusLike);
             statusKomen = (ImageView) v.findViewById(R.id.statusKomen);
@@ -91,6 +100,8 @@ public class CostumAdapter extends BaseAdapter {
 
         final RowItem row_pos = rowItems.get(position);
 
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(context) ;
+        EmojiCompat.init(config);
 
 
 
@@ -128,15 +139,18 @@ public class CostumAdapter extends BaseAdapter {
 
 
         if (row_pos.getTotaltipe().toString().equals("Pertanyaan")) {
-            String label = "<b>PERTANYAAN -> </b>"  + row_pos.getStatus();
-
+            CharSequence isi = EmojiCompat.get().process(row_pos.getStatus());
+            String label = "<b>PERTANYAAN</b><br><br>" + isi;
+            Spanned sp = Html.fromHtml(label);
             finalHolder.status.setGravity(Gravity.CENTER);
-            holder.status.setText(Html.fromHtml(label));
+            holder.status.setText(sp);
             holder.status.setBackgroundResource(R.drawable.latarstatus);
             holder.status.setPadding(20, 20, 20, 20);
         } else {
             finalHolder.status.setGravity(Gravity.LEFT);
-            holder.status.setText(row_pos.getStatus());
+            String isiser = StringEscapeUtils.unescapeJava(row_pos.getStatus());
+            CharSequence isi = EmojiCompat.get().process(isiser);
+            holder.status.setText(isi);
             holder.status.setBackgroundResource(0);
             holder.status.setPadding(0, 0, 0, 0);
         }
@@ -146,6 +160,17 @@ public class CostumAdapter extends BaseAdapter {
         holder.contactType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                if (user.equals(row_pos.getUserId())){
+                    editor.putString("myPost", user);
+                    editor.putString("myPostID", row_pos.getIdBer());
+                    editor.commit();
+                } else {
+                    editor.putString("myPost", "nope");
+                    editor.commit();
+                }
+
                 Intent myIntent = new Intent(context, Pop.class);
                 context.startActivity(myIntent);
             }

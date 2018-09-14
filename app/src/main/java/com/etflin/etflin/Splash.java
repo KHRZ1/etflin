@@ -7,6 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,91 +45,44 @@ public class Splash extends AppCompatActivity {
         String email = settings.getString("email", "");
         String pass = settings.getString("pass", "");
 
-        String type = "login";
-        Loginin process = new Loginin();
-        process.execute(type, email, pass);
+        perintah("https://www.etflin.com/login.php?email="+email+"&user_pass="+pass);
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    public class Loginin extends AsyncTask<String,Void,String>
-    {
+    public void perintah(String urlTarget) {
 
-        @Override
-        protected String doInBackground(String... params) {
-            String type = params[0];
-            String login_url = "https://www.etflin.com/login.php";
-            if(type.equals("login")){
-                try {
-                    String email = params[1];
-                    String pass = params[2];
-                    URL url = new URL(login_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
+// Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getApplication().getApplicationContext());
+        String url = urlTarget;
 
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    String post_data = URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email, "UTF-8")+"&"+URLEncoder.encode("user_pass","UTF-8")+"="+URLEncoder.encode(pass, "UTF-8");
-
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                    String result = "";
-                    String line;
-
-                    while((line = bufferedReader.readLine()) != null){
-                        result = line;
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
+                        String currentString = response;
+                        String[] separated = currentString.split("/");
+                        if(separated[0].equals("selamat")) {
+                            Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+                            startActivity(myIntent);
+                        } else {
+                            Intent myIntent = new Intent(getBaseContext(), Login.class);
+                            startActivity(myIntent);
+                        }
                     }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast toast = Toast.makeText(getApplication().getApplicationContext(),
+                        "Error",
+                        Toast.LENGTH_SHORT);
 
-                    bufferedReader.close();
-                    inputStream.close();
-                    httpURLConnection.disconnect();
-                    return result;
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                toast.show();
             }
-            return null;
-        }
+        });
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPreExecute();
-            progressBar.setVisibility(View.GONE);
-            String currentString = result;
-            String[] separated = currentString.split("/");
-            if(separated[0].equals("selamat")) {
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-
-                // Writing data to SharedPreferences
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("username", separated[1]);
-                editor.commit();
-
-                Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(myIntent);
-            } else {
-                Intent myIntent = new Intent(getBaseContext(), Login.class);
-                startActivity(myIntent);
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onPreExecute();
-        }
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
-
 }

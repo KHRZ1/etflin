@@ -1,15 +1,20 @@
 package com.etflin.etflin;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,15 +26,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TulisFragment extends Fragment {
-    public static final String PREFS_NAME = "MyEtflin";
-    private Spinner spinner;
     private ProgressBar progressBar;
-    private EditText isi;
+    List<GridItem> gridItems;
 
 
     @Override
@@ -37,65 +43,33 @@ public class TulisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tulis, container, false);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        isi = (EditText) view.findViewById(R.id.tulisMessage);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar4);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.tulis, R.layout.spinner_item);
+        GridView mygrid = (GridView) view.findViewById(R.id.mygrid);
+        gridItems = new ArrayList<GridItem>();
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        String[] imagelist = getResources().getStringArray(R.array.gridtulisimage);
+        final String[] judullist = getResources().getStringArray(R.array.gridtulisjudul);
+        String[] keteranganGrid = getResources().getStringArray(R.array.gridtuulisket);
 
-        spinner.setAdapter(adapter);
+        for (int i = 0; i < judullist.length; i++) {
+            GridItem item = new GridItem(imagelist[i], judullist[i], keteranganGrid[i]) ;
+            gridItems.add(item);
+        }
 
-        final Button button = (Button) view.findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
-                final String user = settings.getString("username", "");
+        TulisAdapter gridadapter = new TulisAdapter(getActivity().getApplicationContext(), gridItems);
+        mygrid.setAdapter(gridadapter);
 
-                String tipe = spinner.getSelectedItem().toString();
-                String isipublish = isi.getText().toString();
-
-                perintah("https://www.etflin.com/publish.php?user="+user+"&tipe="+tipe+"&isipublish="+isipublish);
-
-                progressBar.setVisibility(View.VISIBLE);
+        mygrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    Intent myIntent = new Intent(getActivity(), Publish.class);
+                    startActivity(myIntent);
+                }
             }
         });
-
         return view;
     }
 
-
-    public void perintah(String urlTarget) {
-
-// Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = urlTarget;
-
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast toast = Toast.makeText(getContext(),
-                                response,
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast toast = Toast.makeText(getContext(),
-                        "Error",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
-            }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
 }

@@ -27,7 +27,12 @@
     <string name="name">Name</string>
     <string name="publish">Publish</string>
     <string name="hapus_post">Hapus Postingan</string>
-    <string name="bagikan">Bagikan Postingan</string>
+    <string name="bagikan">Bagikan</string>
+    <string name="Laporkan">Laporkan</string>
+    <string name="pusat_aktivitas">Pusat Aktivitas</string>
+    <string name="tulis_disini">Tulis apa yang anda inginkan disini...</string>
+    <string name="pilih_publish">Jenis Publish :</string>
+    <string name="bagikan_ke">Bagikan ke :</string>
 
 
 </resources>

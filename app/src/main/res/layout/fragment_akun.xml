@@ -84,28 +84,4 @@
         android:layout_centerInParent="true"
         android:visibility="invisible" />
 
-    <android.support.design.widget.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="478dp"
-        android:layout_marginTop="5dp"
-        app:tabTextColor="@color/hitam"
-        android:layout_below="@id/akunAlamat"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Left" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Center" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Right" />
-    </android.support.design.widget.TabLayout>
 </RelativeLayout>

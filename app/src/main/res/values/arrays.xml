@@ -5,4 +5,38 @@
         <item>Status</item>
         <item>Artikel</item>
     </string-array>
+
+    <string-array name="gridtulisimage">
+        <item>gazette</item>
+        <item>doctor</item>
+        <item>pharmacist</item>
+        <item>recipe</item>
+    </string-array>
+
+    <string-array name="gridtulisjudul">
+        <item>Publish</item>
+        <item>Temu Dokter</item>
+        <item>Temu Apoteker</item>
+        <item>Tebus Resep</item>
+    </string-array>
+
+    <string-array name="gridtuulisket">
+        <item>Publish status, petanyaan, artikel dan lainnya. Tetap terhubung dengan tenaga kesehatan.</item>
+        <item>Rencanakan pertemuan atau konsultasikan penyakit anda dengan dokter.</item>
+        <item>Konsultasikan obat yang anda gunakan dengan apoteker.</item>
+        <item>Dapatkan obat secara online dengan menebus resep asli dari dokter.</item>
+    </string-array>
+
+    <string-array name="jenis_publish">
+        <item>Status</item>
+        <item>Pertanyaan</item>
+        <item>Artikel</item>
+    </string-array>
+
+    <string-array name="bagikanke">
+        <item>Hanya Saya</item>
+        <item>Teman</item>
+        <item>Semua Orang</item>
+    </string-array>
+
 </resources>

@@ -4,16 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popupback">
+    android:background="@drawable/popupback"
+    android:theme="@style/AppTheme.CostumTheme">
+
+    <TextView
+        android:id="@+id/Laporkan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bagikanPost"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/popupitem"
+        android:padding="10dp"
+        android:text="@string/Laporkan"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/bagikanPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_below="@id/hapusPost"
+        android:layout_marginTop="5dp"
         android:background="@drawable/popupitem"
         android:padding="10dp"
         android:text="@string/bagikan"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/hapusPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popupitem"
+        android:padding="10dp"
+        android:text="@string/hapus_post"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/hapusPost"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 </RelativeLayout>

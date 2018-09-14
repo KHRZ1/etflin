@@ -50,7 +50,7 @@
         android:layout_toRightOf="@id/levelUser"
         app:srcCompat="@drawable/bell64" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
